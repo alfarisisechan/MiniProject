@@ -118,23 +118,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
                               ));
                         });
                   } else {
-                    return Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height,
-                        child: SingleChildScrollView(
-                            child: Padding(
-                                padding: EdgeInsets.fromLTRB(
-                                    20,
-                                    MediaQuery.of(context).size.height * 0.2,
-                                    20,
-                                    0),
-                                child: Column(children: <Widget>[
-                                  logoWidget("assets/images/logoVE.png"),
-                                  SizedBox(
-                                    height: 30,
-                                  ),
-                                  Text('Data Masih Kosong')
-                                ]))));
+                    return Container();
                   }
                 },
               )

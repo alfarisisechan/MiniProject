@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bootstrap/flutter_bootstrap.dart';
+import 'package:intl/intl.dart';
 import 'package:mini_project/reusable_widgets/reusable_widget.dart';
 import 'package:mini_project/screens/sigup_screen.dart';
 
@@ -76,6 +77,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       final DocumentSnapshot documentSnapshot =
                           streamSnapshot.data!.docs[index];
                       streamSnapshot.data!.docs[index];
+                      Timestamp t = documentSnapshot['time'];
+                      DateTime d = t.toDate();
+                      var time = DateFormat('dd-MM-yyyy').format(d);
                       return Card(
                           shape: RoundedRectangleBorder(
                               borderRadius:
@@ -146,21 +150,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             padding:
                                                                 EdgeInsets.only(
                                                                     top: 10),
-                                                            child: Text(
-                                                              documentSnapshot[
-                                                                  'description'],
-                                                              maxLines: 3,
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center,
-                                                              style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                letterSpacing:
-                                                                    0.5,
-                                                              ),
-                                                            ),
+                                                            child: Column(
+                                                                children: [
+                                                                  Text(
+                                                                      documentSnapshot[
+                                                                          'description'],
+                                                                      maxLines:
+                                                                          3,
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight.bold,
+                                                                        letterSpacing:
+                                                                            0.5,
+                                                                      )),
+                                                                ]),
                                                           )),
                                                     ),
                                                     Container(
@@ -364,6 +371,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold),
                                   ),
+                                  subtitle: Text(
+                                    '${time}',
+                                    maxLines: 2,
+                                    textAlign: TextAlign.center,
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
                                 ),
                               ],
                             ),
@@ -371,23 +385,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   );
                 }
-                return Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
-                    child: SingleChildScrollView(
-                        child: Padding(
-                            padding: EdgeInsets.fromLTRB(
-                                20,
-                                MediaQuery.of(context).size.height * 0.2,
-                                20,
-                                0),
-                            child: Column(children: <Widget>[
-                              logoWidget("assets/images/logoVE.png"),
-                              SizedBox(
-                                height: 30,
-                              ),
-                              Text('Data Masih Kosong')
-                            ]))));
+                return Container();
               },
             ),
           ),
