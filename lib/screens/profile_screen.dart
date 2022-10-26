@@ -91,7 +91,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           style: TextStyle(fontSize: 24),
                         ),
                         SizedBox(height: 20),
-                        RaisedButton(
+                        ElevatedButton(
                           child: new Text("Logout"),
                           onPressed: () {
                             FirebaseAuth.instance.signOut().then((value) {

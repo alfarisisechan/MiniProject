@@ -3,7 +3,6 @@ name: Mini Project
 on:
   push:
     branches:
-      - master
       - main
 
 jobs:
