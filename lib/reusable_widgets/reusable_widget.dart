@@ -9,9 +9,54 @@ Image logoWidget(String imageName) {
   );
 }
 
+Image logoWidgetAbout(String imageName) {
+  return Image.asset(
+    imageName,
+    fit: BoxFit.fitWidth,
+    width: 240,
+    height: 100,
+  );
+}
+
+Image logoWidgets(String imageName) {
+  return Image.asset(
+    imageName,
+    fit: BoxFit.fitWidth,
+    width: 200,
+    height: 120,
+  );
+}
+
 TextField reusableTextField(
     String text, bool isPasswordType, TextEditingController controller) {
   return TextField(
+    controller: controller,
+    obscureText: isPasswordType,
+    enableSuggestions: !isPasswordType,
+    autocorrect: !isPasswordType,
+    cursorColor: Colors.white,
+    style: TextStyle(color: Colors.white.withOpacity(0.9)),
+    decoration: InputDecoration(
+      labelText: text,
+      labelStyle: TextStyle(color: Colors.white.withOpacity(0.9)),
+      filled: true,
+      floatingLabelBehavior: FloatingLabelBehavior.never,
+      fillColor: Colors.blueAccent,
+      border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30.0),
+          borderSide: const BorderSide(width: 0, style: BorderStyle.none)),
+    ),
+    keyboardType: isPasswordType
+        ? TextInputType.visiblePassword
+        : TextInputType.emailAddress,
+  );
+}
+
+TextFormField reusableTextFormField(
+    String text, bool isPasswordType, TextEditingController controller) {
+  return TextFormField(
+      minLines: 5,
+      maxLines: null,
       controller: controller,
       obscureText: isPasswordType,
       enableSuggestions: !isPasswordType,
@@ -19,14 +64,15 @@ TextField reusableTextField(
       cursorColor: Colors.white,
       style: TextStyle(color: Colors.white.withOpacity(0.9)),
       decoration: InputDecoration(
+        border: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.white, width: 0.0),
+          borderRadius: BorderRadius.circular(20),
+        ),
         labelText: text,
         labelStyle: TextStyle(color: Colors.white.withOpacity(0.9)),
         filled: true,
         floatingLabelBehavior: FloatingLabelBehavior.never,
         fillColor: Colors.blueAccent,
-        border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30.0),
-            borderSide: const BorderSide(width: 0, style: BorderStyle.none)),
       ),
       keyboardType: isPasswordType
           ? TextInputType.visiblePassword

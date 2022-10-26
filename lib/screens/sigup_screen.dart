@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:mini_project/reusable_widgets/reusable_widget.dart';
 import 'package:mini_project/screens/home_screen.dart';
 import 'package:mini_project/screens/signin_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -14,6 +16,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
   TextEditingController _nameTextController = TextEditingController();
   TextEditingController _emailTextController = TextEditingController();
   TextEditingController _passwordTextController = TextEditingController();
@@ -21,6 +24,44 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController _addressTextController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+    addUser() {
+      return FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: _emailTextController.text,
+              password: _passwordTextController.text)
+          .then((value) {
+        FirebaseAuth.instance.authStateChanges().listen((User? user) {
+          if (user != null) {
+            users.doc(user.uid).set({
+              'uid': user.uid,
+              'name': _nameTextController.text,
+              'email': _emailTextController.text,
+              'password': _passwordTextController.text,
+              'phone': _phoneTextController.text,
+              'address': _addressTextController.text
+            }).then((value) {
+              AlertDialog alert = AlertDialog(
+                title: Text("Register Berhasil"),
+                content: Container(
+                  child: Text("Anda Berhasil Mendaftar, Silahkan Login"),
+                ),
+                actions: [
+                  TextButton(
+                      child: Text('Lanjut'),
+                      onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SignInScreen()))),
+                ],
+              );
+              showDialog(context: context, builder: (context) => alert);
+            });
+          }
+        });
+      });
+    }
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -46,7 +87,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   height: 20,
                 ),
                 reusableTextField(
-                    "Masukan Password", false, _nameTextController),
+                    "Masukan Password", true, _passwordTextController),
                 const SizedBox(
                   height: 20,
                 ),
@@ -55,14 +96,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                reusableTextField(
+                reusableTextFormField(
                     "Masukan Alamat", false, _addressTextController),
                 const SizedBox(
                   height: 20,
                 ),
                 signInSignUpButton(context, false, () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => HomeScreen()));
+                  addUser();
                 }),
                 SizedBox(
                   height: 10,

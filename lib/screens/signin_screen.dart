@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:mini_project/reusable_widgets/reusable_widget.dart';
+import 'package:mini_project/screens/first_screen.dart';
+import 'package:mini_project/screens/home_screen.dart';
 import 'package:mini_project/screens/sigup_screen.dart';
 import 'package:mini_project/utils/color_utils.dart';
 
@@ -37,7 +40,33 @@ class _SignInScreenState extends State<SignInScreen> {
                 SizedBox(
                   height: 20,
                 ),
-                signInSignUpButton(context, true, () {}),
+                signInSignUpButton(context, true, () {
+                  FirebaseAuth.instance
+                      .signInWithEmailAndPassword(
+                          email: _emailTextController.text,
+                          password: _passwordTextController.text)
+                      .then((value) {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => FirstScreen()));
+                  }).catchError((error) {
+                    AlertDialog alert = AlertDialog(
+                      title: Text("Login Gagal",
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      content: Container(
+                        child: Text("Email / Password yang anda masukan salah!",
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                      actions: [
+                        TextButton(
+                          child: Text('Kembali',
+                              style: TextStyle(fontWeight: FontWeight.bold)),
+                          onPressed: () => Navigator.of(context).pop(),
+                        ),
+                      ],
+                    );
+                    showDialog(context: context, builder: (context) => alert);
+                  });
+                }),
                 SignUpOption()
               ],
             ),
