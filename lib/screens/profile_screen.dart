@@ -18,44 +18,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       FirebaseFirestore.instance.collection('users');
   @override
   Widget build(BuildContext context) {
-    // return StreamBuilder(
-    //   stream: FirebaseAuth.instance.userChanges(),
-    //   builder: (BuildContext context, AsyncSnapshot snapshot) {
-    //     if (snapshot.connectionState == ConnectionState.waiting)
-    //       return Center();
-    //     else if (snapshot.hasError)
-    //       return Center(child: SignInScreen());
-    //     else {
-    //       if (snapshot.data.email == null) {
-    //         return SignInScreen();
-    //       } else {
-    //         var email = snapshot.data.email;
-    //         return Column(
-    //           mainAxisAlignment: MainAxisAlignment.center,
-    //           crossAxisAlignment: CrossAxisAlignment.center,
-    //           children: [
-    //             Text('$email', style: TextStyle(color: Colors.black)),
-    //             Container(
-    //               margin: EdgeInsets.all(50),
-    //               child: RaisedButton(
-    //                 child: new Text("Logout"),
-    //                 onPressed: () {
-    //                   FirebaseAuth.instance.signOut().then((value) {
-    //                     Navigator.push(
-    //                         context,
-    //                         MaterialPageRoute(
-    //                             builder: (context) => SignInScreen()));
-    //                   });
-    //                 },
-    //               ),
-    //             ),
-    //             Container(height: 20),
-    //           ],
-    //         );
-    //       }
-    //     }
-    //   },
-    // );
     return StreamBuilder(
       stream: _products.snapshots(),
       builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
